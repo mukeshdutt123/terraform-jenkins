@@ -15,7 +15,7 @@ pipeline{
       steps{
         sh returnStatus: true, script: 'terraform workspace new prod'
         sh "terraform init"
-        sh "terraform apply -var-file=prod.tfvars -auto-approve""
+        sh "terraform apply -var-file=prod.tfvars -auto-approve"
         }
        }
       }
@@ -24,4 +24,8 @@ pipeline{
  def getTerraformPath(){
   def tfHome = tool name: 'terraform-12', type: 'org.jenkinsci.plugins.terraform.TerraformInstallation'
   return tfHome
+}
+
+def createS3Bucket(bucketName){
+  sh returnStatus: true, script: 'aws s3 mb $ --region=ap-south-1'
 }
