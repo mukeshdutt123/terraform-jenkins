@@ -3,10 +3,19 @@ pipeline{
   environment {
     PATH = "${PATH}:${getTerraformPath()}"
   }
-  stages{
-    stage('terraform init'){
+  stage('terraform init and apply - dev'){
       steps{
+        sh returnStatus: true, script: 'terraform workspace new dev'
         sh "terraform init"
+        sh "ansible-playbook terraform.yml"
+      }
+    }
+
+    stage('terraform init and apply - prod'){
+      steps{
+        sh returnStatus: true, script: 'terraform workspace new prod'
+        sh "terraform init"
+        sh "ansible-playbook terraform.yml -e app_env=prod"
         }
        }
       }
