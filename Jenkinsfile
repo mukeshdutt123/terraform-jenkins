@@ -3,6 +3,7 @@ pipeline{
   environment {
     PATH = "${PATH}:${getTerraformPath()}"
   }
+  stages{
   stage('terraform init and apply - dev'){
       steps{
         sh returnStatus: true, script: 'terraform workspace new dev'
@@ -19,6 +20,7 @@ pipeline{
         }
        }
       }
+}
      
 
  def getTerraformPath(){
