@@ -4,6 +4,13 @@ pipeline{
     PATH = "${PATH}:${getTerraformPath()}"
   }
   stages{
+    stage('S3 - create bucket'){
+      steps{
+        script{
+          getTerraformPath('my-terraform-s3')
+        }
+      }
+    }
   stage('terraform init and apply - dev'){
       steps{
         sh returnStatus: true, script: 'terraform workspace new dev'
